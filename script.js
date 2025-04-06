@@ -12,11 +12,10 @@ for(let i = 0; i < rows; i++){
     }
 }
 
-const dropToken = (column, player) => {
+const dropToken = (row, column, player) => {
     const availableCells = board.filter((row) => row[column].getValue() === 0).map(row => row[column]);
     if(!availableCells.length) return;
-    const lowestRow = availableCells.length - 3;
-    board[lowestRow][column].addToken(player);
+    board[row][column].addToken(player);
 }
 
 const getBoard = () => board;
@@ -29,8 +28,6 @@ const printBoard = () =>{
 return {getBoard, printBoard, dropToken};
 
 })();
-
-console.log(gameboard.printBoard())
 
 
 //factory that creats players
@@ -64,27 +61,36 @@ function GameController(playerOne = createPlayer("Bob", "X"), playerTwo = create
     let activePlayer = players[0];
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0]; 
+        // console.log(activePlayer)
     };
     const getActivePlayer = () => activePlayer;
 
     const printNewRound = () => {
         board.printBoard();
         console.log(`${getActivePlayer().name}'s turn`);
+        console.log(activePlayer)
     }
 
-    const playRound = (column) => {
+    const playRound = (row, column) => {
         console.log(
-            `Dropping ${getActivePlayer().name}'s token into the column ${column}`
+            `Dropping ${getActivePlayer().name}'s token into row ${row} column ${column}`
         );
-        board.dropToken(column, getActivePlayer().token);
+        console.log(activePlayer)
+        board.dropToken(row, column, getActivePlayer().token);
 
         switchPlayerTurn();
         printNewRound();
     }
     printNewRound();
 
-    return {playRound, getActivePlayer};
+    return {
+        playRound
+        // getActivePlayer,
+        // getBoard: board.getBoard
+    };
 }
 
 
 const game = GameController();
+
+GameController().playRound(0, 0)
