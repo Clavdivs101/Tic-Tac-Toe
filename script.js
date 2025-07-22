@@ -50,7 +50,7 @@ function Cell() {
             };
 }
 
-function GameController(playerOne = createPlayer("Bob", "X"), playerTwo = createPlayer("John", "O")){
+function GameController(playerOne = createPlayer("P1", "X"), playerTwo = createPlayer("P2", "O")){
     const players = [
         playerOne,
         playerTwo
@@ -61,14 +61,13 @@ function GameController(playerOne = createPlayer("Bob", "X"), playerTwo = create
     let activePlayer = players[0];
     const switchPlayerTurn = () => {
         activePlayer = activePlayer === players[0] ? players[1] : players[0]; 
-        // console.log(activePlayer)
+        console.log(activePlayer)
     };
     const getActivePlayer = () => activePlayer;
 
     const printNewRound = () => {
         board.printBoard();
         console.log(`${getActivePlayer().name}'s turn`);
-        console.log(activePlayer)
     }
 
     const playRound = (row, column) => {
@@ -81,11 +80,12 @@ function GameController(playerOne = createPlayer("Bob", "X"), playerTwo = create
         switchPlayerTurn();
         printNewRound();
     }
+    console.log("message");
     printNewRound();
 
     return {
-        playRound
-        // getActivePlayer,
+        playRound,
+        getActivePlayer
         // getBoard: board.getBoard
     };
 }
@@ -93,4 +93,7 @@ function GameController(playerOne = createPlayer("Bob", "X"), playerTwo = create
 
 const game = GameController();
 
-GameController().playRound(0, 0)
+game.playRound(0, 0)
+game.playRound(0, 1)
+game.playRound(0, 2)
+game.playRound(1, 0)
