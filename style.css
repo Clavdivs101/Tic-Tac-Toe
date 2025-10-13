@@ -1,4 +1,4 @@
-/* .board {
+.board {
     display: grid;
     height: 500px;
     width: 500px;
@@ -19,4 +19,4 @@
     border: 1px solid grey;
     background: lightyellow;
     cursor: pointer;
-  } */
+  }

@@ -39,6 +39,7 @@ function createPlayer(name, token){
 //this represents the board spaces, the are pushed into the gameboard array this way all the board spaces have the characteristics of this function I think.
 function Cell() {
     let value = 0;
+    console.log(typeof(value))
 
     const addToken = (player) => {
         value = player;
@@ -80,20 +81,67 @@ function GameController(playerOne = createPlayer("P1", "X"), playerTwo = createP
         switchPlayerTurn();
         printNewRound();
     }
-    console.log("message");
     printNewRound();
 
     return {
         playRound,
-        getActivePlayer
-        // getBoard: board.getBoard
+        getActivePlayer,
+        getBoard: board.getBoard
     };
 }
 
 
-const game = GameController();
 
-game.playRound(0, 0)
-game.playRound(0, 1)
-game.playRound(0, 2)
-game.playRound(1, 0)
+// const game = GameController();
+
+// const board = game.getBoard
+
+
+// game.playRound(0, 0)
+// game.playRound(0, 1)
+// game.playRound(1, 2)
+// game.playRound(1, 0)
+// game.playRound(2, 1)
+
+function screenController() {
+    const game = GameController();
+    const playerTurnDiv = document.querySelector('.turn');
+    const boardDiv = document.querySelector('.board');
+
+    const updateScreen = () =>{
+        boardDiv.textContent = "";
+        console.log(boardDiv)
+
+        const board = game.getBoard();
+        const activePlayer = game.getActivePlayer();
+
+        playerTurnDiv.textContent = `${activePlayer.name}'s turn`
+
+
+        board.forEach((row, indexRow) => {
+            row.forEach((cell, indexColumn) => {
+                const cellButton = document.createElement("button");
+                cellButton.classList.add("cell");
+                cellButton.dataset.row = indexRow
+                cellButton.dataset.column = indexColumn
+                cellButton.textContent = cell.getValue();
+                boardDiv.appendChild(cellButton);
+            })
+        })
+    }
+
+    function clickHandlerBoard(e) {
+        const selectedRow = e.target.dataset.row;
+        const selectedColumn = e.target.dataset.column;
+
+        // if (!selectedColumn) return;
+
+            game.playRound(selectedRow, selectedColumn);
+        updateScreen();
+    }
+    boardDiv.addEventListener("click", clickHandlerBoard);
+
+    updateScreen();
+}
+
+screenController();
